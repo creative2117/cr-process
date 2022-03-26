@@ -7,8 +7,8 @@ RegisterServerEvent('process:server:process', function(k)
     
     if Player.PlayerData.items ~= nil then 
         local item = nil
-        for item, v in pairs(Config.Locations[k].items) do
-            item = Player.Functions.GetItemByName(Config.Locations[k].items[item].name)
+        for _, v in pairs(Config.Locations[k].items) do
+            item = Player.Functions.GetItemByName(Config.Locations[k].items[_].name)
             if item ~= nil and item.amount >= Config.Locations[k].items[_].amount then
                 hasItem = true
             else
