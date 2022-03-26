@@ -33,7 +33,7 @@ Config.Locations = {
             amount = 2, -- How many of the item to get
         },
     },
-    ['examle2'] = { -- Just an example, edit to your liking
+    ['example2'] = { -- Just an example, edit to your liking
         coords = { -- The coords to have the process
             ['1'] = vector3(-567.88, 22.33, 44.27),
         },
