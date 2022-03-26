@@ -9,7 +9,7 @@ RegisterServerEvent('process:server:process', function(k)
         local item = nil
         for item, v in pairs(Config.Locations[k].items) do
             item = Player.Functions.GetItemByName(Config.Locations[k].items[item].name)
-            if item ~= nil and item.amount >= 3 then
+            if item ~= nil and item.amount >= Config.Locations[k].items[_].amount then
                 hasItem = true
             else
                 TriggerClientEvent('QBCore:Notify', src, Config.Locations[k].notifyDontHaveItems, 'error')
