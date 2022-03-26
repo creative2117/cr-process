@@ -14,4 +14,4 @@ drag and drop the cr-picking folder in to your resources and start it by adding 
 
 # Support
 
-For support join my [discord](https://discord.gg/zFPCa6DuKp)
+For support join my [discord](https://discord.gg/feS9hMUPuf)
