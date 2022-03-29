@@ -29,8 +29,10 @@ Config.Locations = {
         animDict = "anim@amb@clubhouse@mini@darts@", -- The animation dictionary
         anim = "enter_throw_a", -- The animation in the animation dictionary
         itemToGet = {
-            name = "phone", -- The name of the item to get when you are done processing
-            amount = 2, -- How many of the item to get
+            ['1'] = {
+                name = "phone", -- The name of the item to get when you are done processing
+                amount = 2, -- How many of the item to get
+            },
         },
     },
     ['example2'] = { -- Just an example, edit to your liking
@@ -59,8 +61,10 @@ Config.Locations = {
         animDict = "anim@amb@clubhouse@mini@darts@", -- The animation dictionary
         anim = "enter_throw_a", -- The animation in the animation dictionary
         itemToGet = {
-            name = "phone", -- The name of the item to get when you are done processing
-            amount = 2, -- How many of the item to get
+            ['1'] = {
+                name = "phone", -- The name of the item to get when you are done processing
+                amount = 2, -- How many of the item to get
+            },
         },
     },
 }
