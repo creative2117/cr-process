@@ -10,8 +10,8 @@ An easy to use process script that let's you process a set of items in to anothe
 
 # Installation
 
-drag and drop the cr-picking folder in to your resources and start it by adding `ensure cr-process` to your server.cfg
+drag and drop the cr-process folder in to your resources and start it by adding `ensure cr-process` to your server.cfg
 
 # Support
 
-For support join my [discord](https://discord.gg/feS9hMUPuf)
+For support join my [discord](https://discord.gg/PVc7QqxcXm)
