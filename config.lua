@@ -1,6 +1,8 @@
 Config = {}
 
+Config.debug = false
 Config.Key = 47 -- G
+Config.useTarget = GetConvar('UseTarget', 'false') == 'true'
 
 Config.Locations = {
     ['example1'] = { -- Just an example, edit to your liking

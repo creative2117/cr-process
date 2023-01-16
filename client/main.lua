@@ -21,38 +21,51 @@ DrawText3Ds = function(x, y, z, text)
     ClearDrawOrigin()
 end
 
-Citizen.CreateThread(function()
-    while true do
-        local inRange = false
+if not Config.useTarget then
+    CreateThread(function()
+        while true do
+            local inRange = false
 
-        local PlayerPed = PlayerPedId()
-        local PlayerPos = GetEntityCoords(PlayerPed)
+            local PlayerPed = PlayerPedId()
+            local PlayerPos = GetEntityCoords(PlayerPed)
 
-        
-        for k, v in pairs(Config.Locations) do
-            for _, v in pairs(Config.Locations[k].coords) do
-                local coords = vector3(Config.Locations[k].coords[_].x, Config.Locations[k].coords[_].y, Config.Locations[k].coords[_].z)
-                local distance = #(PlayerPos - coords)
-                if distance < 15 then
-                    inRange = true
+            
+            for k, _ in pairs(Config.Locations) do
+                for i, _ in pairs(Config.Locations[k].coords) do
+                    local coords = vector3(Config.Locations[k].coords[i].x, Config.Locations[k].coords[i].y, Config.Locations[k].coords[i].z)
+                    local distance = #(PlayerPos - coords)
+                    if distance < 15 then
+                        inRange = true
 
-                    if distance < 2 then
-                        DrawText3Ds(coords.x, coords.y, coords.z, Config.Locations[k].text)
-                        if IsControlJustPressed(0, Config.Key) then
-                            TriggerServerEvent("process:server:process", k)
+                        if distance < 2 then
+                            DrawText3Ds(coords.x, coords.y, coords.z, Config.Locations[k].text)
+                            if IsControlJustPressed(0, Config.Key) then
+                                TriggerServerEvent("process:server:process", k)
 
+                            end
                         end
                     end
                 end
             end
-        end
 
-        if not inRange then
-            Citizen.Wait(2000)
+            if not inRange then
+                Wait(2000)
+            end
+            Wait(3)
         end
-        Citizen.Wait(3)
+    end)
+else
+    for k, _ in pairs(Config.Locations) do
+        for i, _ in pairs(Config.Locations[k].coords) do
+
+            exports['qb-target']:AddCircleZone('cr-proccess_' .. k .. i, vector3(Config.Locations[k].coords[i].x, Config.Locations[k].coords[i].y, Config.Locations[k].coords[i].z), 0.5,{
+                name = 'cr-proccess_' .. k .. i, debugPoly = Config.debug, useZ=true}, {
+                options = {{label = Config.Locations[k].text,icon = 'fa-solid fa-hand-rock-o', action = function() TriggerServerEvent("process:server:process", k) end}},
+                distance = 2.0
+            })
+        end
     end
-end)
+end
 
 function Process(k)
     QBCore.Functions.Progressbar("grind_coke", Config.Locations[k].textProgressBar, Config.Locations[k].progressbar, false, true, {
