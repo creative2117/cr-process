@@ -40,9 +40,13 @@ if not Config.useTarget then
 
                         if distance < 2 then
                             DrawText3Ds(coords.x, coords.y, coords.z, Config.Locations[k].text)
-                            if IsControlJustPressed(0, Config.Key) then
-                                TriggerServerEvent("process:server:process", k)
-
+                            if IsDisabledControlJustReleased(0, Config.Key) then
+                                if not processing then
+                                    if Config.debug then
+                                        print("^1Pressed processing button")
+                                    end
+                                    TriggerServerEvent("process:server:process", k)
+                                end
                             end
                         end
                     end
@@ -68,7 +72,12 @@ else
     end
 end
 
-function Process(k)
+RegisterNetEvent("cr-process:client:process", function(k)
+-- function Process(k)
+    if Config.debug then
+        print("^2now processing")
+    end
+    PrepareProcessAnim(k)
     QBCore.Functions.Progressbar("grind_coke", Config.Locations[k].textProgressBar, Config.Locations[k].progressbar, false, true, {
         disableMovement = true,
         disableCarMovement = true,
@@ -78,12 +87,18 @@ function Process(k)
         TriggerServerEvent("process:server:getitem", k)
         QBCore.Functions.Notify(Config.Locations[k].notifyProgressbar, "success")
         ClearPedTasks(PlayerPedId())
+        if Config.debug then
+            print("^2done processing")
+        end
         processing = false
     end, function() -- Cancel
         ClearPedTasks(PlayerPedId())
         processing = false
+        if Config.debug then
+            print("^1canceld processing")
+        end
     end)
-end
+end)
 
 RegisterNetEvent('process:client:ProcessMinigame', function(k)
     if not processing then
@@ -91,7 +106,7 @@ RegisterNetEvent('process:client:ProcessMinigame', function(k)
         if Config.Locations[k].miniGame then
             ProcessMinigame(k)
         else
-            PrepareProcessAnim(k)
+            
             Process(k)
         end
     end
@@ -113,7 +128,12 @@ end
 function ProcessMinigame(k)
     dufficulty(k)
     local Skillbar = exports['qb-skillbar']:GetSkillbarObject()
-
+    if Config.debug then
+        print("^4skillbarDuration " .. skillbarDuration)
+        print("^4skillbarPos " .. skillbarPos)
+        print("^4skillbarWidth " .. skillbarWidth)
+        print("^4NeededAttempts " .. NeededAttempts)
+    end
     Skillbar.Start({
         duration = skillbarDuration,
         pos = skillbarPos,
@@ -121,20 +141,31 @@ function ProcessMinigame(k)
     }, function()
 
         if SucceededAttempts + 1 >= NeededAttempts then
-            PrepareProcessAnim(k)
-            Process(k)
+            
+            TriggerEvent("cr-process:client:process", k)
+            -- Process(k)
             QBCore.Functions.Notify(Config.Locations[k].notifyMinigameSuccess, "success")
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
+
+            if Config.debug then
+                print("^2Made the skillchecks")
+            end
         else    
-            dufficulty(k)
-            SucceededAttempts = SucceededAttempts + 1
+            -- dufficulty(k)
+            if Config.debug then
+                print("^4before SucceededAttempts " .. SucceededAttempts)
+            end
             Skillbar.Repeat({
                 duration = skillbarDuration,
                 pos = skillbarPos,
                 width = skillbarWidth,
             })
+            SucceededAttempts = SucceededAttempts + 1
+            if Config.debug then
+                print("^4after SucceededAttempts " .. SucceededAttempts)
+            end
         end
                 
         
@@ -144,12 +175,18 @@ function ProcessMinigame(k)
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
+            Wait(1000)
             processing = false
-       
+            if Config.debug then
+                print("^1Failed skillchecks")
+            end
     end)
 end
 
 function dufficulty(k)
+    if Config.debug then
+        print("^4Skillbar dufficulty " .. Config.Locations[k].skillBar)
+    end
     if Config.Locations[k].skillBar == "hard" then
         skillbarDuration = math.random(600, 1000)
         skillbarPos = math.random(5, 50)
