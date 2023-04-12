@@ -107,7 +107,7 @@ RegisterNetEvent('process:client:ProcessMinigame', function(k)
             ProcessMinigame(k)
         else
             
-            Process(k)
+            TriggerEvent("cr-process:client:process", k)
         end
     end
 end)
