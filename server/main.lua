@@ -1,23 +1,22 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local hasItems = false
 
 RegisterServerEvent('process:server:process', function(k)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    
+    local hasItems = false
     if Player.PlayerData.items ~= nil then 
         local item = nil
         for _, v in pairs(Config.Locations[k].items) do
             item = Player.Functions.GetItemByName(Config.Locations[k].items[_].name)
             if item ~= nil and item.amount >= Config.Locations[k].items[_].amount then
-                hasItem = true
+                hasItems = true
             else
                 TriggerClientEvent('QBCore:Notify', src, Config.Locations[k].notifyDontHaveItems, 'error')
-                hasItem = false
+                hasItems = false
                 break
             end
         end
-        if hasItem then
+        if hasItems then
             TriggerClientEvent("process:client:ProcessMinigame", src, k)
         end
     end
