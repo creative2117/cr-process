@@ -5,6 +5,7 @@ local FailedAttemps = 0
 local skillbarDuration = nil
 local skillbarPos = nil
 local skillbarWidth = nil
+local processing = false
 
 DrawText3Ds = function(x, y, z, text)
 	SetTextScale(0.35, 0.35)
@@ -77,18 +78,22 @@ function Process(k)
         TriggerServerEvent("process:server:getitem", k)
         QBCore.Functions.Notify(Config.Locations[k].notifyProgressbar, "success")
         ClearPedTasks(PlayerPedId())
+        processing = false
     end, function() -- Cancel
         ClearPedTasks(PlayerPedId())
-        
+        processing = false
     end)
 end
 
 RegisterNetEvent('process:client:ProcessMinigame', function(k)
-    if Config.Locations[k].miniGame then
-        ProcessMinigame(k)
-    else
-        PrepareProcessAnim(k)
-        Process(k)
+    if not processing then
+        processing = true
+        if Config.Locations[k].miniGame then
+            ProcessMinigame(k)
+        else
+            PrepareProcessAnim(k)
+            Process(k)
+        end
     end
 end)
 
@@ -139,6 +144,7 @@ function ProcessMinigame(k)
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
+            processing = false
        
     end)
 end
