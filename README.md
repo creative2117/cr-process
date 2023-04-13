@@ -1,3 +1,4 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X0KDPJQ)
 # cr-process
 
 An easy to use process script that let's you process a set of items in to another item with an easy to use config for bascilly everything
