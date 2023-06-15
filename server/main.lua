@@ -25,7 +25,11 @@ end)
 RegisterServerEvent('process:server:getitem', function(k)
     local Player = QBCore.Functions.GetPlayer(source)
     for item, v in pairs(Config.Locations[k].itemToGet) do
-        Player.Functions.AddItem(Config.Locations[k].itemToGet[item].name, Config.Locations[k].itemToGet[item].amount)
+        if Config.Locations[k].itemToGet[item].info then
+            Player.Functions.AddItem(Config.Locations[k].itemToGet[item].name, Config.Locations[k].itemToGet[item].amount, nil, Config.Locations[k].itemToGet[item].info)
+        else
+            Player.Functions.AddItem(Config.Locations[k].itemToGet[item].name, Config.Locations[k].itemToGet[item].amount)
+        end
         TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.Locations[k].itemToGet[item].name], "add")
     end
     for item, v in pairs(Config.Locations[k].items) do
