@@ -34,7 +34,7 @@ Config.Locations = {
             ['1'] = {
                 name = "phone", -- The name of the item to get when you are done processing
                 amount = 2, -- How many of the item to get
-                info = nil, -- The items info, if you need a text put it in "", if a amount/number just put the number, if you don't whant the info put nil or false
+                info = nil, -- The items info. example: info = { amount = 20 }, i you dont wanna use it put nil
             },
         },
     },
@@ -67,7 +67,7 @@ Config.Locations = {
             ['1'] = {
                 name = "phone", -- The name of the item to get when you are done processing
                 amount = 2, -- How many of the item to get
-                info = nil, -- The items info, if you need a text put it in "", if a amount/number just put the number, if you don't whant the info put nil or false
+                info = nil, -- The items info. example: info = { amount = 20 }, i you dont wanna use it put nil
             },
         },
     },
